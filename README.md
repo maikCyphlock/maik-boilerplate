@@ -162,3 +162,9 @@ Puedes desplegar este boilerplate en cualquier plataforma que soporte Node.js, c
 ## Licencia
 
 Este proyecto está bajo la licencia MIT. Ver el archivo `LICENSE` para más detalles.
+
+
+## como desarrollar
+
+
+- [Ver detalles del sistema y filosofía de desarrollo](SYSTEM.md)
