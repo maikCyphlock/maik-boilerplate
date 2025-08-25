@@ -1,6 +1,10 @@
 // lib/api/steps.ts
 import type {  PipeStep } from "./pipe";
 
+interface TodoRequestBody {
+  text: string;
+}
+
 // Valida que haya body
 export const requireBody: PipeStep = async (ctx) => {
   const body = await ctx.req.json().catch(() => null);
@@ -17,18 +21,17 @@ export const requireAuth: PipeStep = async (ctx) => {
   return ctx;
 };
 
-
-const todos = [{ id: 1, text: 'Aprender React Query' }];
+const todos: Array<{ id: number; text: string }> = [{ id: 1, text: 'Aprender React Query' }];
 // Lógica de negocio
 export const createTodo: PipeStep = async (ctx) => {
-  const { text } = ctx.body;
+  const body = ctx.body as TodoRequestBody;
+  const { text } = body;
   if (!text) throw new Error("Text is required");
 
   // Aquí podrías llamar a DB
   const newTodo = { id: Date.now(), text };
   todos.push(newTodo);
-
-  return { ...ctx, data: newTodo };
+  return { ...ctx, result: newTodo };
 };
 
 export const getTodos: PipeStep = async (ctx) => {
