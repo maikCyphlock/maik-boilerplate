@@ -1,5 +1,5 @@
 // lib/api/pipe.ts
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest, NextResponse } from "next/server";
 
 export type PipeContext<T = any> = {
   req: NextRequest;
