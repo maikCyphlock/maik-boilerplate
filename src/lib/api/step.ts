@@ -1,5 +1,5 @@
 // lib/api/steps.ts
-import { PipeStep } from "./pipe";
+import type {  PipeStep } from "./pipe";
 
 // Valida que haya body
 export const requireBody: PipeStep = async (ctx) => {
@@ -18,7 +18,7 @@ export const requireAuth: PipeStep = async (ctx) => {
 };
 
 
-let todos = [{ id: 1, text: 'Aprender React Query' }];
+const todos = [{ id: 1, text: 'Aprender React Query' }];
 // Lógica de negocio
 export const createTodo: PipeStep = async (ctx) => {
   const { text } = ctx.body;
