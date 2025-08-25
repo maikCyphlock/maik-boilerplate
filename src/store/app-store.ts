@@ -1,12 +1,17 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+interface QueueItem<T = Record<string, unknown>> {
+  url: string;
+  data: T;
+}
+
 interface AppState {
   isOnline: boolean;
-  queue: Array<{ url: string; data: any }>; // Cola offline
+  queue: Array<QueueItem>;
 
   setOnline: (online: boolean) => void;
-  addToQueue: (item: { url: string; data: any }) => void;
+  addToQueue: <T = Record<string, unknown>>(item: QueueItem<T>) => void;
   clearQueue: () => void;
 }
 
@@ -17,7 +22,10 @@ export const useAppStore = create<AppState>()(
       queue: [],
 
       setOnline: (online) => set({ isOnline: online }),
-      addToQueue: (item) => set((state) => ({ queue: [...state.queue, item] })),
+      addToQueue: <T = Record<string, unknown>>(item: QueueItem<T>) => 
+        set((state) => ({ 
+          queue: [...state.queue, item as QueueItem] 
+        })),
       clearQueue: () => set({ queue: [] }),
     }),
     { name: "app-storage" }
