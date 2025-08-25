@@ -1,6 +1,6 @@
+import type { NextRequest} from 'next/server';
 import { runPipeline } from '@/lib/api/pipe';
 import { createTodo, getTodos, requireAuth, requireBody } from '@/lib/api/step';
-import { NextRequest} from 'next/server';
 
 
 
@@ -13,6 +13,7 @@ export async function GET(req:NextRequest) {
 export async function POST(req:NextRequest) {
   return runPipeline({ req }, [
     requireBody,
+    requireAuth,
     createTodo,
   ]);
 }
