@@ -17,9 +17,11 @@ export default function Home() {
   const { mutate, isPending } = useMutation({
     mutationFn: addTodo,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["todos"] }),
-    onError: (err: Error) => {
-      console.error(err.message)
-      toast.error(err.message)
+    onError: (err: Error | unknown) => {
+      if (err instanceof Error) {
+
+        toast.error(err.message)
+      };
     },
     
   });
@@ -36,7 +38,10 @@ export default function Home() {
 
         {/* Lista de tareas */}
         <ul className="space-y-2">
-          {todos?.map((t: any) => (
+          {todos?.map((t: {
+            id: string,
+            text:string
+          }) => (
             <li
               key={t.id}
               className="bg-white rounded-2xl px-4 py-3 shadow-sm border border-gray-200 flex items-center justify-between hover:shadow-md transition"
