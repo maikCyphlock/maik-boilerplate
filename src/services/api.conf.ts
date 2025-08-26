@@ -42,6 +42,8 @@ api.interceptors.response.use(
 				break;
 			case 401:
 				message = "No autorizado. Por favor inicia sesión nuevamente.";
+				//redirect
+				 window.location.href = "/auth"
 				break;
 			case 403:
 				message = "No tienes permisos para realizar esta acción";
