@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Jost, Nunito } from "next/font/google";
+import { Jost, Nunito } from "next/font/google";
 import "./globals.css";
 import { ReactQueryProvider } from '@/lib/react-query';
+import {Toaster} from 'sonner'
 const JostFont = Jost({
   variable: "--font-jost",
   subsets: ["latin"],
@@ -30,6 +31,7 @@ export default function RootLayout({
         <ReactQueryProvider>
         {children}
         </ReactQueryProvider>
+        <Toaster richColors/>
       </body>
     </html>
   );
