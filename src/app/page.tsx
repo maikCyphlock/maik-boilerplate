@@ -30,10 +30,47 @@ export default function Home() {
 		},
 	});
 
-	if (isLoading) return <p className="text-gray-500">Cargando...</p>;
+	if (isLoading) return (
+    <div className="flex flex-col items-center justify-center min-h-screen w-full bg-white">
+      <div className="bg-white/80 rounded-3xl shadow-2xl px-10 py-12 flex flex-col items-center max-w-md w-full animate-pulse">
+
+        <ul className="space-y-3 w-full mb-8">
+          {[...Array(4)].map((id) => (
+            <li key={id} className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-gray-200 rounded-full" />
+              <div className="flex-1 h-4 bg-gray-200 rounded" />
+            </li>
+          ))}
+        </ul>
+        <div className="flex gap-2 w-full">
+          <div className="flex-1 h-10 bg-gray-200 rounded-xl" />
+          <div className="w-24 h-10 bg-gray-200 rounded-xl" />
+        </div>
+      </div>
+    </div>
+  );
+  
 	if (error)
 		return (
-			<p className="text-red-500">❌ Error cargando tareas {error.message}</p>
+			<div className="flex flex-col items-center justify-center min-h-screen w-full bg-gradient-to-br from-red-100 to-red-300">
+				<div className="bg-white/80 rounded-3xl shadow-2xl px-10 py-12 flex flex-col items-center max-w-md">
+					<span className="text-6xl mb-4 animate-bounce">❌</span>
+					<h2 className="text-3xl font-bold text-red-700 mb-2 font-serif text-center">¡Ups! Ocurrió un error</h2>
+					<p className="text-lg text-red-600 mb-4 text-center">No se pudieron cargar tus tareas.</p>
+					{error?.message && (
+						<p className="text-sm text-gray-700 bg-red-200 rounded-lg px-4 py-2 mb-4 text-center">
+							{error.message}
+						</p>
+					)}
+					<button
+						onClick={() => window.location.reload()}
+            type="button"
+						className="mt-2 px-6 py-2 rounded-xl bg-gradient-to-b from-red-500 to-red-700 text-white font-semibold shadow hover:from-red-600 hover:to-red-800 transition"
+					>
+						Reintentar
+					</button>
+				</div>
+			</div>
 		);
 
 	return (
@@ -65,6 +102,7 @@ export default function Home() {
 						className="flex-1 px-4 py-2 rounded-xl border border-gray-300 bg-white/70 text-black shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
 					/>
 					<button
+
 						onClick={() => {
 							if (!input.trim()) return;
 							mutate({ text: input });
