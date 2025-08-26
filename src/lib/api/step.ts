@@ -1,9 +1,12 @@
 // lib/api/steps.ts
 import type {  PipeStep } from "./pipe";
-
+import {  createClient } from '@/lib/supabase/server'
+import { AuthError } from "@supabase/supabase-js";
 interface TodoRequestBody {
   text: string;
 }
+
+const supabaseServerClient = createClient()
 
 // Valida que haya body
 export const requireBody: PipeStep = async (ctx) => {
@@ -14,11 +17,24 @@ export const requireBody: PipeStep = async (ctx) => {
 
 // Autenticación básica
 export const requireAuth: PipeStep = async (ctx) => {
-  const token = ctx.req.headers.get("authorization");
-  if (!token || token !== "Bearer secret") {
-    throw { message: "Unauthorized", status: 401 };
+
+  const {data:user, error}  = await (await supabaseServerClient).auth.getUser()
+
+  if(error){
+    if(error instanceof AuthError && error.message === 'Auth session missing!'){
+      throw new Error("Unauthorized",{
+        cause:{
+          status: 401
+        }
+      } );
+    }
+    console.error(error)
+    throw new Error(error.message)
   }
-  return ctx;
+  if ( !user) {
+    throw new Error("Unauthorized", { cause: { status: 401 } });
+  }
+  return { ...ctx, user };
 };
 
 const todos: Array<{ id: number; text: string }> = [{ id: 1, text: 'Aprender React Query' }];
