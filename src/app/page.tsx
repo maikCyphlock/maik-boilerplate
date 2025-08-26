@@ -3,7 +3,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { getTodos, addTodo } from "@/services/example/api";
-
+import {toast} from 'sonner'
 
 export default function Home() {
   const queryClient = useQueryClient();
@@ -17,7 +17,10 @@ export default function Home() {
   const { mutate, isPending } = useMutation({
     mutationFn: addTodo,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["todos"] }),
-    onError: (err: any) => console.error(err.message),
+    onError: (err: Error) => {
+      console.error(err.message)
+      toast.error(err.message)
+    },
     
   });
 
